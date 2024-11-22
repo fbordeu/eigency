@@ -1,6 +1,6 @@
 # distutils: language = c++
 # distutils: sources = eigency_tests/eigency_tests_cpp.cpp
-
+from libc.stdio cimport printf
 from eigency.core cimport *
 
 # cimport eigency.conversions

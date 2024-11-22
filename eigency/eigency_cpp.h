@@ -6,12 +6,15 @@
 #define EIGENCY_CPP_H
 
 #include <Eigen/Core>
+#include <numpy/arrayobject.h>
 #include <numpy/ndarraytypes.h>
+#include <numpy/ndarrayobject.h>
 
 #include "eigency.h"
 
 typedef ::std::complex< double > __pyx_t_double_complex;
 typedef ::std::complex< float > __pyx_t_float_complex;
+typedef ::std::complex< long double > __pyx_t_long_double_complex;
 
 #include "conversions_api.h"
 
@@ -79,8 +82,8 @@ _NDAV(signed char, ndarray_schar, ndarray_schar_C, ndarray_schar_F)
 _NDAC(signed char, ndarray_schar, ndarray_copy_schar_C, ndarray_copy_schar_F)
 _NDAV(unsigned char, ndarray_uchar, ndarray_uchar_C, ndarray_uchar_F)
 _NDAC(unsigned char, ndarray_uchar, ndarray_copy_uchar_C, ndarray_copy_uchar_F)
-_NDAV(npy_clongdouble, ndarray_complex_long_double, ndarray_complex_long_double_C, ndarray_complex_long_double_F)
-_NDAC(npy_clongdouble, ndarray_complex_long_double, ndarray_copy_complex_long_double_C, ndarray_copy_complex_long_double_F)
+_NDAV(std::complex<long double>, ndarray_complex_long_double, ndarray_complex_long_double_C, ndarray_complex_long_double_F)
+_NDAC(std::complex<long double>, ndarray_complex_long_double, ndarray_copy_complex_long_double_C, ndarray_copy_complex_long_double_F)
 _NDAV(std::complex<double>, ndarray_complex_double, ndarray_complex_double_C, ndarray_complex_double_F)
 _NDAC(std::complex<double>, ndarray_complex_double, ndarray_copy_complex_double_C, ndarray_copy_complex_double_F)
 _NDAV(std::complex<float>, ndarray_complex_float, ndarray_complex_float_C, ndarray_complex_float_F)
@@ -245,12 +248,12 @@ public:
     }
 
     FlattenedMap(PyArrayObject *object)
-        : Base((Scalar *)((PyArrayObject*)object)->data,
+        : Base((Scalar *) PyArray_DATA(((PyArrayObject*)object)),
         // : Base(_from_numpy<Scalar>((PyArrayObject*)object),
-               (((PyArrayObject*)object)->nd == 2) ? ((PyArrayObject*)object)->dimensions[0] : 1,
-               (((PyArrayObject*)object)->nd == 2) ? ((PyArrayObject*)object)->dimensions[1] : ((PyArrayObject*)object)->dimensions[0],
-               Eigen::Stride<_StrideOuter, _StrideInner>(_StrideOuter != Eigen::Dynamic ? _StrideOuter : (((PyArrayObject*)object)->nd == 2) ? ((PyArrayObject*)object)->dimensions[0] : 1,
-                                                         _StrideInner != Eigen::Dynamic ? _StrideInner : (((PyArrayObject*)object)->nd == 2) ? ((PyArrayObject*)object)->dimensions[1] : ((PyArrayObject*)object)->dimensions[0])),
+               (PyArray_NDIM((PyArrayObject*)object) == 2) ? PyArray_DIMS((PyArrayObject*)object)[0] : 1,
+               (PyArray_NDIM((PyArrayObject*)object) == 2) ? PyArray_DIMS((PyArrayObject*)object)[1] : PyArray_DIMS((PyArrayObject*)object)[0],
+               Eigen::Stride<_StrideOuter, _StrideInner>(_StrideOuter != Eigen::Dynamic ? _StrideOuter : (PyArray_NDIM((PyArrayObject*)object) == 2) ? PyArray_DIMS((PyArrayObject*)object)[0] : 1,
+                                                         _StrideInner != Eigen::Dynamic ? _StrideInner : (PyArray_NDIM((PyArrayObject*)object) == 2) ? PyArray_DIMS((PyArrayObject*)object)[1] : PyArray_DIMS((PyArrayObject*)object)[0])),
           object_(object) {
 
         if (((PyObject*)object != Py_None) && !PyArray_ISONESEGMENT(object))
@@ -322,21 +325,21 @@ public:
           object_(NULL) {}
 
     Map(PyArrayObject *object)
-        : Base((PyObject*)object == Py_None? NULL: (Scalar *)object->data,
+        : Base((PyObject*)object == Py_None? NULL: (Scalar *)PyArray_DATA(object),
                // ROW: If array is in row-major order, transpose (see README)
                (PyObject*)object == Py_None? 0 :
                (!PyArray_IS_F_CONTIGUOUS(object)
-                ? ((object->nd == 1)
+                ? ((PyArray_NDIM(object) == 1)
                    ? 1  // ROW: If 1D row-major numpy array, set to 1 (row vector)
-                   : object->dimensions[1])
-                : object->dimensions[0]),
+                   : PyArray_DIMS(object)[1])
+                : PyArray_DIMS(object)[0]),
                // COLUMN: If array is in row-major order: transpose (see README)
                (PyObject*)object == Py_None? 0 :
                (!PyArray_IS_F_CONTIGUOUS(object)
-                ? object->dimensions[0]
-                : ((object->nd == 1)
+                ? PyArray_DIMS(object)[0]
+                : ((PyArray_NDIM(object) == 1)
                    ? 1  // COLUMN: If 1D col-major numpy array, set to length (column vector)
-                   : object->dimensions[1]))),
+                   : PyArray_DIMS(object)[1]))),
           object_(object) {
 
         if (((PyObject*)object != Py_None) && !PyArray_ISONESEGMENT(object))
