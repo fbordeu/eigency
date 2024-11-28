@@ -1,10 +1,10 @@
 # Contributing
 
 There are several ways to contribute to Eigency!
-- Submit issue/bug reports [here](https://github.com/wouterboomsma/eigency/issues),
-or try to fix the problem yourself and then [submit a pull request](https://github.com/wouterboomsma/eigency/pulls).
-- Request features or ask questions [here](https://github.com/wouterboomsma/eigency/issues).
-- Browse [the source code](https://github.com/wouterboomsma/eigency) and see if anything looks out of place - let us know!
+- Submit issue/bug reports [here](https://github.com/eigency-org/eigency/issues),
+or try to fix the problem yourself and then [submit a pull request](https://github.com/eigency-org/eigency/pulls).
+- Request features or ask questions [here](https://github.com/eigency-org/eigency/issues).
+- Browse [the source code](https://github.com/eigency-org/eigency) and see if anything looks out of place - let us know!
 
 ## Getting Started
 
@@ -13,7 +13,7 @@ However, the source code and tests do successfully compile on `Windows` with MSV
 
 Clone the upstream Git repository to your local computer:
 ```bash
-git clone git@github.com:wouterboomsma/eigency.git
+git clone git@github.com:eigency-org/eigency.git
 cd eigency
 git submodule update --init
 ```
@@ -78,7 +78,7 @@ Run `pre-commit`:
 
 The first run will take longer than subsequent runs as it sets up the isolated virtual environments for each configured tool.
 
-If all checks pass, then you're ready to [submit that pull request](https://github.com/wouterboomsma/eigency/pulls)!
+If all checks pass, then you're ready to [submit that pull request](https://github.com/eigency-org/eigency/pulls)!
 
 **Thank you for your contribution!**
 

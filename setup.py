@@ -68,24 +68,6 @@ for root, dirs, files in os.walk(join(__eigen_dir__, "Eigen")):
 
 setup(
     name=__package_name__,
-    description="Cython interface between the numpy arrays and the Matrix/Array classes of the Eigen C++ library",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    classifiers=[
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: C++",
-        "Programming Language :: Cython",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Programming Language :: Python :: 3.13",
-    ],
-    license="MIT",
-    author="Wouter Boomsma",
-    author_email="wb@di.ku.dk",
-    url="https://github.com/wouterboomsma/eigency",
     use_scm_version=True,
     ext_modules=extensions,
     packages=find_namespace_packages(
@@ -99,6 +81,4 @@ setup(
     include_package_data=True,
     package_data={__package_name__: ["*.h", "*.pxd", "*.pyx", join(__eigen_lib_dir__, "*")] + eigen_data_files},
     exclude_package_data={__package_name__: [join(__eigen_lib_dir__, "CMakeLists.txt")]},
-    python_requires=">=3.9",
-    install_requires=["numpy"],
 )
