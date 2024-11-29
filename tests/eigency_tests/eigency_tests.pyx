@@ -46,7 +46,9 @@ cdef extern from "eigency_tests/eigency_tests_cpp.h":
      cdef PlainObjectBase _function_type_double "function_type_double" (Map[ArrayXXd] &)
      cdef PlainObjectBase _function_type_float "function_type_float" (Map[ArrayXXf] &)
      cdef PlainObjectBase _function_type_long "function_type_long" (FlattenedMap[Array, long, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_long_long "function_type_long_long" (FlattenedMap[Array, long long, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_ulong "function_type_ulong" (FlattenedMap[Array, unsigned long, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_ulong_long "function_type_ulong_long" (FlattenedMap[Array, unsigned long long, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_int "function_type_int" (Map[ArrayXXi] &)
      cdef PlainObjectBase _function_type_uint "function_type_uint" (FlattenedMap[Array, unsigned int, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_short "function_type_short" (FlattenedMap[Array, short, Dynamic, Dynamic] &)
@@ -151,9 +153,17 @@ def function_type_float32(np.ndarray[np.float32_t, ndim=2] array):
 def function_type_long(np.ndarray[long, ndim=2] array):
     return ndarray(_function_type_long(FlattenedMap[Array, long, Dynamic, Dynamic](array)))
 
+# Functions with different matrix types: long long
+def function_type_long_long(np.ndarray[long  long, ndim=2] array):
+    return ndarray(_function_type_long_long(FlattenedMap[Array, longlong, Dynamic, Dynamic](array)))
+
 # Functions with different matrix types: ulong
 def function_type_ulong(np.ndarray[unsigned long, ndim=2] array):
     return ndarray(_function_type_ulong(FlattenedMap[Array, ulong, Dynamic, Dynamic](array)))
+
+# Functions with different matrix types: ulong long
+def function_type_ulong_long(np.ndarray[unsigned long long, ndim=2] array):
+    return ndarray(_function_type_ulong_long(FlattenedMap[Array, ulonglong, Dynamic, Dynamic](array)))
 
 # Functions with different matrix types: int
 def function_type_intc(np.ndarray[np.int32_t, ndim=2] array):
