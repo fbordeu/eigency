@@ -20,11 +20,23 @@ cdef api np.ndarray[float, ndim=2] ndarray_float_F(float *data, long rows, long 
 cdef api np.ndarray[float, ndim=2] ndarray_copy_float_C(const float *data, long rows, long cols, long outer_stride, long inner_stride)
 cdef api np.ndarray[float, ndim=2] ndarray_copy_float_F(const float *data, long rows, long cols, long outer_stride, long inner_stride)
 
+cdef api np.ndarray[long long, ndim=2] ndarray_long_long()
+cdef api np.ndarray[long long, ndim=2] ndarray_long_long_C(long long *data, long rows, long cols, long outer_stride, long inner_stride)
+cdef api np.ndarray[long long, ndim=2] ndarray_long_long_F(long long *data, long rows, long cols, long outer_stride, long inner_stride)
+cdef api np.ndarray[long long, ndim=2] ndarray_copy_long_long_C(const long long *data, long rows, long cols, long outer_stride, long inner_stride)
+cdef api np.ndarray[long long, ndim=2] ndarray_copy_long_long_F(const long long *data, long rows, long cols, long outer_stride, long inner_stride)
+
 cdef api np.ndarray[long, ndim=2] ndarray_long()
 cdef api np.ndarray[long, ndim=2] ndarray_long_C(long *data, long rows, long cols, long outer_stride, long inner_stride)
 cdef api np.ndarray[long, ndim=2] ndarray_long_F(long *data, long rows, long cols, long outer_stride, long inner_stride)
 cdef api np.ndarray[long, ndim=2] ndarray_copy_long_C(const long *data, long rows, long cols, long outer_stride, long inner_stride)
 cdef api np.ndarray[long, ndim=2] ndarray_copy_long_F(const long *data, long rows, long cols, long outer_stride, long inner_stride)
+
+cdef api np.ndarray[unsigned long long, ndim=2] ndarray_ulong_long()
+cdef api np.ndarray[unsigned long long, ndim=2] ndarray_ulong_long_C(unsigned long long *data, long rows, long cols, long outer_stride, long inner_stride)
+cdef api np.ndarray[unsigned long long, ndim=2] ndarray_ulong_long_F(unsigned long long *data, long rows, long cols, long outer_stride, long inner_stride)
+cdef api np.ndarray[unsigned long long, ndim=2] ndarray_copy_ulong_long_C(const unsigned long long *data, long rows, long cols, long outer_stride, long inner_stride)
+cdef api np.ndarray[unsigned long long, ndim=2] ndarray_copy_ulong_long_F(const unsigned long long *data, long rows, long cols, long outer_stride, long inner_stride)
 
 cdef api np.ndarray[unsigned long, ndim=2] ndarray_ulong()
 cdef api np.ndarray[unsigned long, ndim=2] ndarray_ulong_C(unsigned long *data, long rows, long cols, long outer_stride, long inner_stride)
