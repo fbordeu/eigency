@@ -161,24 +161,30 @@ class TestEigency(unittest.TestCase):
 
     def test_function_type_int(self):
         # C++ long - Note that this is the standard Python integer
+        # with numpy 1 int is 32 in numpy 2 int is 64, so we need to be more specific
         mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order="F")
-        # # equivalent to:
-        # mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order='F', dtype=np.int_)
-        mat_out = eigency_tests.function_type_long(mat_in)
+        if mat_in.dtype == np.dtype("long"):
+            mat_out = eigency_tests.function_type_long(mat_in)
+        else:
+            mat_out = eigency_tests.function_type_long_long(mat_in)
         assert_array_equal(mat_in, mat_out)
 
     def test_function_type_long(self):
         # C++ long - Note that this is the standard Python integer
         mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order="F", dtype=int)
-        # # equivalent to:
-        # mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order='F', dtype=np.int_)
-        mat_out = eigency_tests.function_type_long(mat_in)
+        if mat_in.dtype == np.dtype("long"):
+            mat_out = eigency_tests.function_type_long(mat_in)
+        else:
+            mat_out = eigency_tests.function_type_long_long(mat_in)
         assert_array_equal(mat_in, mat_out)
 
     def test_function_type_ulong(self):
         # C++ ulong
         mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order="F", dtype=np.uint)
-        mat_out = eigency_tests.function_type_ulong(mat_in)
+        if mat_in.dtype == np.dtype("ulong"):
+            mat_out = eigency_tests.function_type_ulong(mat_in)
+        else:
+            mat_out = eigency_tests.function_type_ulong_long(mat_in)
         assert_array_equal(mat_in, mat_out)
 
     def test_function_type_intc(self):

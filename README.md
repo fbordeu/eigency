@@ -1,10 +1,10 @@
 # Eigency
 
 [![PyPI version](https://badge.fury.io/py/eigency.svg)](https://badge.fury.io/py/eigency)
-[![PEP 517](https://github.com/wouterboomsma/eigency/actions/workflows/build.yml/badge.svg)](https://github.com/wouterboomsma/eigency/actions/workflows/build.yml)
-[![pip wheel](https://github.com/wouterboomsma/eigency/actions/workflows/wheel.yml/badge.svg)](https://github.com/wouterboomsma/eigency/actions/workflows/wheel.yml)
-[![setup.py](https://github.com/wouterboomsma/eigency/actions/workflows/setup.yml/badge.svg)](https://github.com/wouterboomsma/eigency/actions/workflows/setup.yml)
-[![pre-commit](https://github.com/wouterboomsma/eigency/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/wouterboomsma/eigency/actions/workflows/pre-commit.yml)
+[![PEP 517](https://github.com/eigency-org/eigency/actions/workflows/build.yml/badge.svg)](https://github.com/eigency-org/eigency/actions/workflows/build.yml)
+[![pip wheel](https://github.com/eigency-org/eigency/actions/workflows/wheel.yml/badge.svg)](https://github.com/eigency-org/eigency/actions/workflows/wheel.yml)
+[![setup.py](https://github.com/eigency-org/eigency/actions/workflows/setup.yml/badge.svg)](https://github.com/eigency-org/eigency/actions/workflows/setup.yml)
+[![pre-commit](https://github.com/eigency-org/eigency/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/eigency-org/eigency/actions/workflows/pre-commit.yml)
 
 Eigency is a Cython interface between Numpy arrays and Matrix/Array
 objects from the Eigen C++ library. It is intended to simplify the
@@ -37,7 +37,7 @@ python -m pip install --upgrade pip
 ## Contributing
 
 For instructions on building and/or packaging Eigency from source,
-see the contributing guide [here](https://github.com/wouterboomsma/eigency/blob/master/CONTRIBUTING.md).
+see the contributing guide [here](https://github.com/eigency-org/eigency/blob/master/CONTRIBUTING.md).
 
 ## Usage
 
