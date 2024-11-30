@@ -147,6 +147,7 @@ class TestEigency(unittest.TestCase):
         y = my_object.get_array_copy()
         assert_array_equal(x, y)
 
+    # Fixed width types
     def test_function_type_float32(self):
         # C++ float
         mat_in = np.array([[1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0]], order="F", dtype=np.float32)
@@ -233,6 +234,32 @@ class TestEigency(unittest.TestCase):
         mat_out = eigency_tests.function_type_complex128(mat_in)
         assert_array_equal(mat_in, mat_out)
 
+    def test_function_type_longlong(self):
+        # C++ long long
+        mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order="F", dtype=np.longlong)
+        mat_out = eigency_tests.function_type_longlong(mat_in)
+        assert_array_equal(mat_in, mat_out)
+
+    def test_function_type_ulonglong(self):
+        # C++ unsigned long long
+        mat_in = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], order="F", dtype=np.ulonglong)
+        mat_out = eigency_tests.function_type_ulonglong(mat_in)
+        assert_array_equal(mat_in, mat_out)
+
+    def test_function_type_clongdouble(self):
+        # C++ long double complex
+        mat_in = np.array(
+            [
+                [1.0 + 1.0j, 2.0 + 2.0j, 3.0 + 3.0j, 4.0 + 4.0j],
+                [5.0 + 5.0j, 6.0 + 6.0j, 7.0 + 7.0j, 8.0 + 8.0j],
+            ],
+            order="F",
+            dtype=np.clongdouble,
+        )
+        mat_out = eigency_tests.function_type_clongdouble(mat_in)
+        assert_array_equal(mat_in, mat_out)
+
+    # Edge case tests
     def test_function_single_col_matrix(self):
         # Issue #11
         mat_in = np.zeros((2, 3), order="F")

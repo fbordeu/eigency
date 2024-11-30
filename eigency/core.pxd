@@ -1,5 +1,10 @@
 cimport numpy as np
 
+ctypedef long long long_long;
+ctypedef unsigned long long u_long_long;
+ctypedef long double long_double;
+ctypedef long double complex c_long_double;
+
 # If this is changed, array_type_t in conversions.pxd needs to be changed too
 ctypedef fused dtype:
     signed char
@@ -10,14 +15,14 @@ ctypedef fused dtype:
     unsigned int
     long
     unsigned long
-    long long
-    unsigned long long
+    long_long
+    u_long_long
     float
     double
-    long double
+    long_double
     float complex
     double complex
-    long double complex
+    c_long_double
 
 ctypedef fused DenseType:
     Matrix

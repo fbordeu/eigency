@@ -52,6 +52,12 @@ Eigen::Array<uint64_t, Eigen::Dynamic, Eigen::Dynamic> function_type_uint64(Eige
 Eigen::ArrayXXcf function_type_complex_float(Eigen::Map<Eigen::ArrayXXcf> &array);
 Eigen::ArrayXXcd function_type_complex_double(Eigen::Map<Eigen::ArrayXXcd> &array);
 
+Eigen::Array<long, Eigen::Dynamic, Eigen::Dynamic> function_type_long(Eigen::Map<Eigen::Array<long, Eigen::Dynamic, Eigen::Dynamic> > &mat);
+Eigen::Array<unsigned long, Eigen::Dynamic, Eigen::Dynamic> function_type_ulong(Eigen::Map<Eigen::Array<unsigned long, Eigen::Dynamic, Eigen::Dynamic> > &mat);
+Eigen::Array<long long, Eigen::Dynamic, Eigen::Dynamic> function_type_longlong(Eigen::Map<Eigen::Array<long long, Eigen::Dynamic, Eigen::Dynamic> > &mat);
+Eigen::Array<unsigned long long, Eigen::Dynamic, Eigen::Dynamic> function_type_ulonglong(Eigen::Map<Eigen::Array<unsigned long long, Eigen::Dynamic, Eigen::Dynamic> > &mat);
+Eigen::Array<::std::complex< long double >, Eigen::Dynamic, Eigen::Dynamic> function_type_clongdouble(Eigen::Map<Eigen::Array<::std::complex< long double >, Eigen::Dynamic, Eigen::Dynamic> > &mat);
+
 Eigen::Map<Eigen::ArrayXXd> function_single_col_matrix(Eigen::Map<Eigen::ArrayXXd> &array);
 
 

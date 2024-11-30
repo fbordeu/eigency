@@ -4,6 +4,7 @@ import numpy as np
 
 from libc.stdint cimport (int8_t, int16_t, int64_t, uint8_t, uint16_t,
                           uint32_t, uint64_t)
+from numpy.lib._version import NumpyVersion
 
 from eigency.core cimport *
 
@@ -58,8 +59,15 @@ cdef extern from "eigency_tests/eigency_tests_cpp.h":
      cdef PlainObjectBase _function_type_uint32 "function_type_uint32" (FlattenedMap[Array, uint32_t, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_int64 "function_type_int64" (FlattenedMap[Array, int64_t, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_uint64 "function_type_uint64" (FlattenedMap[Array, uint64_t, Dynamic, Dynamic] &)
-     cdef PlainObjectBase _function_type_complex_float "function_type_complex_float" (Map[ArrayXXcf] &)
-     cdef PlainObjectBase _function_type_complex_double "function_type_complex_double" (Map[ArrayXXcd] &)
+     cdef PlainObjectBase _function_type_complex_float "function_type_complex_float"(Map[ArrayXXcf] &)
+     cdef PlainObjectBase _function_type_complex_double "function_type_complex_double"(Map[ArrayXXcd] &)
+
+     cdef PlainObjectBase _function_type_longdouble "function_type_longdouble"(FlattenedMap[Array, long double, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_long "function_type_long"(FlattenedMap[Array, long, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_ulong "function_type_ulong"(FlattenedMap[Array, unsigned long, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_longlong "function_type_longlong"(FlattenedMap[Array, long long, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_ulonglong "function_type_ulonglong"(FlattenedMap[Array, unsigned long long, Dynamic, Dynamic] &)
+     cdef PlainObjectBase _function_type_clongdouble "function_type_clongdouble"(FlattenedMap[Array, long double complex, Dynamic, Dynamic] &)
 
      cdef PlainObjectBase _function_single_col_matrix "function_single_col_matrix" (Map[ArrayXXd] &)
 
@@ -191,6 +199,18 @@ def function_type_complex64(np.ndarray[np.complex64_t, ndim=2] array):
 # Functions with different matrix types: complex128
 def function_type_complex128(np.ndarray[np.complex128_t, ndim=2] array):
     return ndarray(_function_type_complex_double(Map[ArrayXXcd](array)))
+
+# Functions with different matrix types: long long
+def function_type_longlong(np.ndarray[np.longlong_t, ndim=2] array):
+    return ndarray(_function_type_longlong(FlattenedMap[Array, long_long, Dynamic, Dynamic](array)))
+
+# Functions with different matrix types: unsigned long long
+def function_type_ulonglong(np.ndarray[np.ulonglong_t, ndim=2] array):
+    return ndarray(_function_type_ulonglong(FlattenedMap[Array, u_long_long, Dynamic, Dynamic](array)))
+
+# Functions with different matrix types: long double complex
+def function_type_clongdouble(np.ndarray[np.clongdouble_t, ndim=2] array):
+    return ndarray(_function_type_clongdouble(FlattenedMap[Array, c_long_double, Dynamic, Dynamic](array)))
 
 # Functions testing a matrix with only one column
 def function_single_col_matrix(np.ndarray[np.float64_t, ndim=2] array):
