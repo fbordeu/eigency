@@ -1,6 +1,5 @@
 cimport numpy as np
 
-
 # If this is changed, array_type_t in core.pxd needs to be changed too
 # Also, the handling of the types needs to be changed in eigency_cpp.h for NDAC and NDAV
 ctypedef fused array_type_t:

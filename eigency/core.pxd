@@ -1,6 +1,5 @@
 cimport numpy as np
 
-
 # If this is changed, array_type_t in conversions.pxd needs to be changed too
 ctypedef fused dtype:
     signed char

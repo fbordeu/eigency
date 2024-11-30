@@ -1,8 +1,11 @@
 # distutils: language = c++
 # distutils: sources = eigency_tests/eigency_tests_cpp.cpp
 import numpy as np
+
+from libc.stdint cimport (int8_t, int16_t, int64_t, uint8_t, uint16_t,
+                          uint32_t, uint64_t)
+
 from eigency.core cimport *
-from libc.stdint cimport int8_t, uint8_t, int16_t, uint16_t, uint32_t, int64_t, uint64_t
 
 # cimport eigency.conversions
 # from eigency_tests.eigency cimport *
