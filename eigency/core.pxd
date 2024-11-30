@@ -1,19 +1,24 @@
-cimport cython
 cimport numpy as np
 
-ctypedef signed char schar;
-ctypedef unsigned char uchar;
-ctypedef long double long_double;
 
+# If this is changed, array_type_t in conversions.pxd needs to be changed too
 ctypedef fused dtype:
-    uchar
-    schar
+    signed char
+    unsigned char
     short
+    unsigned short
     int
+    unsigned int
     long
+    unsigned long
+    long long
+    unsigned long long
     float
     double
-    long_double
+    long double
+    float complex
+    double complex
+    long double complex
 
 ctypedef fused DenseType:
     Matrix

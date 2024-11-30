@@ -20,6 +20,7 @@ typedef ::std::complex< long double > __pyx_t_long_double_complex;
 
 namespace eigency {
 
+// Eigen -> Numpy (2D)
 template<typename Scalar>
 inline PyArrayObject* _ndarray_view(Scalar *, long rows, long cols, bool is_row_major, long outer_stride=0, long inner_stride=0);
 template<typename Scalar>
@@ -37,61 +38,62 @@ inline PyArrayObject* _ndarray_copy(const Scalar *, long rows, long cols, bool i
 #define _NDAV(TYPE, FUNC_NAME_E, FUNC_NAME_C, FUNC_NAME_F) template<>                                                                       \
 inline PyArrayObject* _ndarray_view< TYPE >(TYPE *data, long rows, long cols, bool is_row_major, long outer_stride, long inner_stride) {    \
     if (data == nullptr) {                                                                                                                  \
-        return FUNC_NAME_E();                                                                                                               \
+        return FUNC_NAME_E(data);                                                                                                           \
     } else if (is_row_major) {                                                                                                              \
         /* Eigen row-major mode: row_stride=outer_stride, and col_stride=inner_stride */                                                    \
         /* If no stride is given, the row_stride is set to the number of columns. */                                                        \
-        return FUNC_NAME_C(data, rows, cols, outer_stride>0?outer_stride:cols, inner_stride>0?inner_stride:1);                              \
+        return FUNC_NAME_C(data, rows, cols, (outer_stride>0?outer_stride:cols)*sizeof(TYPE), (inner_stride>0?inner_stride:1)*sizeof(TYPE));\
     } else {                                                                                                                                \
         /* Eigen column-major mode: row_stride=outer_stride, and col_stride=inner_stride */                                                 \
         /* If no stride is given, the cow_stride is set to the number of rows. */                                                           \
-        return FUNC_NAME_F(data, rows, cols, inner_stride>0?inner_stride:1, outer_stride>0?outer_stride:rows);                              \
+        return FUNC_NAME_F(data, rows, cols, (inner_stride>0?inner_stride:1)*sizeof(TYPE), (outer_stride>0?outer_stride:rows)*sizeof(TYPE));\
     }                                                                                                                                       \
 }
 
 #define _NDAC(TYPE, FUNC_NAME_E, FUNC_NAME_C, FUNC_NAME_F) template<>                                                                           \
 inline PyArrayObject* _ndarray_copy< TYPE >(const TYPE *data, long rows, long cols, bool is_row_major, long outer_stride, long inner_stride) {  \
     if (data == nullptr) {                                                                                                                      \
-        return FUNC_NAME_E();                                                                                                                   \
+        return FUNC_NAME_E(data);                                                                                                               \
     } else if (is_row_major) {                                                                                                                  \
-        return FUNC_NAME_C(data, rows, cols, outer_stride>0?outer_stride:cols, inner_stride>0?inner_stride:1);                                  \
+        return FUNC_NAME_C(data, rows, cols, (outer_stride>0?outer_stride:cols)*sizeof(TYPE), (inner_stride>0?inner_stride:1)*sizeof(TYPE));    \
     } else {                                                                                                                                    \
-        return FUNC_NAME_F(data, rows, cols, inner_stride>0?inner_stride:1, outer_stride>0?outer_stride:rows);                                  \
+        return FUNC_NAME_F(data, rows, cols, (inner_stride>0?inner_stride:1)*sizeof(TYPE), (outer_stride>0?outer_stride:rows)*sizeof(TYPE));    \
     }                                                                                                                                           \
 }
 
-_NDAV(long double, ndarray_long_double, ndarray_long_double_C, ndarray_long_double_F)
-_NDAC(long double, ndarray_long_double, ndarray_copy_long_double_C, ndarray_copy_long_double_F)
-_NDAV(double, ndarray_double, ndarray_double_C, ndarray_double_F)
-_NDAC(double, ndarray_double, ndarray_copy_double_C, ndarray_copy_double_F)
-_NDAV(float, ndarray_float, ndarray_float_C, ndarray_float_F)
-_NDAC(float, ndarray_float, ndarray_copy_float_C, ndarray_copy_float_F)
-_NDAV(long, ndarray_long, ndarray_long_C, ndarray_long_F)
-_NDAC(long, ndarray_long, ndarray_copy_long_C, ndarray_copy_long_F)
-_NDAV(long long, ndarray_long_long, ndarray_long_long_C, ndarray_long_long_F)
-_NDAC(long long, ndarray_long_long, ndarray_copy_long_long_C, ndarray_copy_long_long_F)
-_NDAV(unsigned long, ndarray_ulong, ndarray_ulong_C, ndarray_ulong_F)
-_NDAC(unsigned long, ndarray_ulong, ndarray_copy_ulong_C, ndarray_copy_ulong_F)
-_NDAV(unsigned long long, ndarray_ulong_long, ndarray_ulong_long_C, ndarray_ulong_long_F)
-_NDAC(unsigned long long, ndarray_ulong_long, ndarray_copy_ulong_long_C, ndarray_copy_ulong_long_F)
-_NDAV(int, ndarray_int, ndarray_int_C, ndarray_int_F)
-_NDAC(int, ndarray_int, ndarray_copy_int_C, ndarray_copy_int_F)
-_NDAV(unsigned int, ndarray_uint, ndarray_uint_C, ndarray_uint_F)
-_NDAC(unsigned int, ndarray_uint, ndarray_copy_uint_C, ndarray_copy_uint_F)
-_NDAV(short, ndarray_short, ndarray_short_C, ndarray_short_F)
-_NDAC(short, ndarray_short, ndarray_copy_short_C, ndarray_copy_short_F)
-_NDAV(unsigned short, ndarray_ushort, ndarray_ushort_C, ndarray_ushort_F)
-_NDAC(unsigned short, ndarray_ushort, ndarray_copy_ushort_C, ndarray_copy_ushort_F)
-_NDAV(signed char, ndarray_schar, ndarray_schar_C, ndarray_schar_F)
-_NDAC(signed char, ndarray_schar, ndarray_copy_schar_C, ndarray_copy_schar_F)
-_NDAV(unsigned char, ndarray_uchar, ndarray_uchar_C, ndarray_uchar_F)
-_NDAC(unsigned char, ndarray_uchar, ndarray_copy_uchar_C, ndarray_copy_uchar_F)
-_NDAV(std::complex<long double>, ndarray_complex_long_double, ndarray_complex_long_double_C, ndarray_complex_long_double_F)
-_NDAC(std::complex<long double>, ndarray_complex_long_double, ndarray_copy_complex_long_double_C, ndarray_copy_complex_long_double_F)
-_NDAV(std::complex<double>, ndarray_complex_double, ndarray_complex_double_C, ndarray_complex_double_F)
-_NDAC(std::complex<double>, ndarray_complex_double, ndarray_copy_complex_double_C, ndarray_copy_complex_double_F)
-_NDAV(std::complex<float>, ndarray_complex_float, ndarray_complex_float_C, ndarray_complex_float_F)
-_NDAC(std::complex<float>, ndarray_complex_float, ndarray_copy_complex_float_C, ndarray_copy_complex_float_F)
+// This is the currently best option for this mess, tho if I can figure out a better one, I will banish this thing back to the place from whence it came
+_NDAV(signed char, __pyx_fuse_0ndarray, __pyx_fuse_0ndarray_C, __pyx_fuse_0ndarray_F)
+_NDAC(signed char, __pyx_fuse_0ndarray, __pyx_fuse_0ndarray_copy_C, __pyx_fuse_0ndarray_copy_F)
+_NDAV(unsigned char, __pyx_fuse_1ndarray, __pyx_fuse_1ndarray_C, __pyx_fuse_1ndarray_F)
+_NDAC(unsigned char, __pyx_fuse_1ndarray, __pyx_fuse_1ndarray_copy_C, __pyx_fuse_1ndarray_copy_F)
+_NDAV(short, __pyx_fuse_2ndarray, __pyx_fuse_2ndarray_C, __pyx_fuse_2ndarray_F)
+_NDAC(short, __pyx_fuse_2ndarray, __pyx_fuse_2ndarray_copy_C, __pyx_fuse_2ndarray_copy_F)
+_NDAV(unsigned short, __pyx_fuse_3ndarray, __pyx_fuse_3ndarray_C, __pyx_fuse_3ndarray_F)
+_NDAC(unsigned short, __pyx_fuse_3ndarray, __pyx_fuse_3ndarray_copy_C, __pyx_fuse_3ndarray_copy_F)
+_NDAV(int, __pyx_fuse_4ndarray, __pyx_fuse_4ndarray_C, __pyx_fuse_4ndarray_F)
+_NDAC(int, __pyx_fuse_4ndarray, __pyx_fuse_4ndarray_copy_C, __pyx_fuse_4ndarray_copy_F)
+_NDAV(unsigned int, __pyx_fuse_5ndarray, __pyx_fuse_5ndarray_C, __pyx_fuse_5ndarray_F)
+_NDAC(unsigned int, __pyx_fuse_5ndarray, __pyx_fuse_5ndarray_copy_C, __pyx_fuse_5ndarray_copy_F)
+_NDAV(long, __pyx_fuse_6ndarray, __pyx_fuse_6ndarray_C, __pyx_fuse_6ndarray_F)
+_NDAC(long, __pyx_fuse_6ndarray, __pyx_fuse_6ndarray_copy_C, __pyx_fuse_6ndarray_copy_F)
+_NDAV(unsigned long, __pyx_fuse_7ndarray, __pyx_fuse_7ndarray_C, __pyx_fuse_7ndarray_F)
+_NDAC(unsigned long, __pyx_fuse_7ndarray, __pyx_fuse_7ndarray_copy_C, __pyx_fuse_7ndarray_copy_F)
+_NDAV(long long, __pyx_fuse_8ndarray, __pyx_fuse_8ndarray_C, __pyx_fuse_8ndarray_F)
+_NDAC(long long, __pyx_fuse_8ndarray, __pyx_fuse_8ndarray_copy_C, __pyx_fuse_8ndarray_copy_F)
+_NDAV(unsigned long long, __pyx_fuse_9ndarray, __pyx_fuse_9ndarray_C, __pyx_fuse_9ndarray_F)
+_NDAC(unsigned long long, __pyx_fuse_9ndarray, __pyx_fuse_9ndarray_copy_C, __pyx_fuse_9ndarray_copy_F)
+_NDAV(float, __pyx_fuse_10ndarray, __pyx_fuse_10ndarray_C, __pyx_fuse_10ndarray_F)
+_NDAC(float, __pyx_fuse_10ndarray, __pyx_fuse_10ndarray_copy_C, __pyx_fuse_10ndarray_copy_F)
+_NDAV(double, __pyx_fuse_11ndarray, __pyx_fuse_11ndarray_C, __pyx_fuse_11ndarray_F)
+_NDAC(double, __pyx_fuse_11ndarray, __pyx_fuse_11ndarray_copy_C, __pyx_fuse_11ndarray_copy_F)
+_NDAV(long double, __pyx_fuse_12ndarray, __pyx_fuse_12ndarray_C, __pyx_fuse_12ndarray_F)
+_NDAC(long double, __pyx_fuse_12ndarray, __pyx_fuse_12ndarray_copy_C, __pyx_fuse_12ndarray_copy_F)
+_NDAV(std::complex<float>, __pyx_fuse_13ndarray, __pyx_fuse_13ndarray_C, __pyx_fuse_13ndarray_F)
+_NDAC(std::complex<float>, __pyx_fuse_13ndarray, __pyx_fuse_13ndarray_copy_C, __pyx_fuse_13ndarray_copy_F)
+_NDAV(std::complex<double>, __pyx_fuse_14ndarray, __pyx_fuse_14ndarray_C, __pyx_fuse_14ndarray_F)
+_NDAC(std::complex<double>, __pyx_fuse_14ndarray, __pyx_fuse_14ndarray_copy_C, __pyx_fuse_14ndarray_copy_F)
+_NDAV(std::complex<long double>, __pyx_fuse_15ndarray, __pyx_fuse_15ndarray_C, __pyx_fuse_15ndarray_F)
+_NDAC(std::complex<long double>, __pyx_fuse_15ndarray, __pyx_fuse_15ndarray_copy_C, __pyx_fuse_15ndarray_copy_F)
 
 #undef _NDAV
 #undef _NDAC
