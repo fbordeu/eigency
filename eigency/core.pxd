@@ -1,5 +1,6 @@
 cimport numpy as np
 
+ctypedef unsigned long u_long
 ctypedef long long long_long;
 ctypedef unsigned long long u_long_long;
 ctypedef long double long_double;

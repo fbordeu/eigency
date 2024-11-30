@@ -4,7 +4,6 @@ import numpy as np
 
 from libc.stdint cimport (int8_t, int16_t, int64_t, uint8_t, uint16_t,
                           uint32_t, uint64_t)
-from numpy.lib._version import NumpyVersion
 
 from eigency.core cimport *
 
@@ -62,9 +61,6 @@ cdef extern from "eigency_tests/eigency_tests_cpp.h":
      cdef PlainObjectBase _function_type_complex_float "function_type_complex_float"(Map[ArrayXXcf] &)
      cdef PlainObjectBase _function_type_complex_double "function_type_complex_double"(Map[ArrayXXcd] &)
 
-     cdef PlainObjectBase _function_type_longdouble "function_type_longdouble"(FlattenedMap[Array, long double, Dynamic, Dynamic] &)
-     cdef PlainObjectBase _function_type_long "function_type_long"(FlattenedMap[Array, long, Dynamic, Dynamic] &)
-     cdef PlainObjectBase _function_type_ulong "function_type_ulong"(FlattenedMap[Array, unsigned long, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_longlong "function_type_longlong"(FlattenedMap[Array, long long, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_ulonglong "function_type_ulonglong"(FlattenedMap[Array, unsigned long long, Dynamic, Dynamic] &)
      cdef PlainObjectBase _function_type_clongdouble "function_type_clongdouble"(FlattenedMap[Array, long double complex, Dynamic, Dynamic] &)
