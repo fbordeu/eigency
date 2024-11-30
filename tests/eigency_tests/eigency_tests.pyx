@@ -157,27 +157,27 @@ def function_type_int8(np.ndarray[np.int8_t, ndim=2] array):
 def function_type_uint8(np.ndarray[np.uint8_t, ndim=2] array):
     return ndarray(_function_type_uint8(FlattenedMap[Array, uint8_t, Dynamic, Dynamic](array)))
 
-# Functions with different matrix types: signed char
+# Functions with different matrix types: short/int
 def function_type_int16(np.ndarray[np.int16_t, ndim=2] array):
     return ndarray(_function_type_int16(FlattenedMap[Array, int16_t, Dynamic, Dynamic](array)))
 
-# Functions with different matrix types: unsigned char
+# Functions with different matrix types: unsigned short/unsigned int
 def function_type_uint16(np.ndarray[np.uint16_t, ndim=2] array):
     return ndarray(_function_type_uint16(FlattenedMap[Array, uint16_t, Dynamic, Dynamic](array)))
 
-# Functions with different matrix types: signed char
+# Functions with different matrix types: long
 def function_type_int32(np.ndarray[np.int32_t, ndim=2] array):
     return ndarray(_function_type_int32(Map[ArrayXXi](array)))
 
-# Functions with different matrix types: unsigned char
+# Functions with different matrix types: unsigned long
 def function_type_uint32(np.ndarray[np.uint32_t, ndim=2] array):
     return ndarray(_function_type_uint32(FlattenedMap[Array, uint32_t, Dynamic, Dynamic](array)))
 
-# Functions with different matrix types: signed char
+# Functions with different matrix types: long long
 def function_type_int64(np.ndarray[np.int64_t, ndim=2] array):
     return ndarray(_function_type_int64(FlattenedMap[Array, int64_t, Dynamic, Dynamic](array)))
 
-# Functions with different matrix types: unsigned char
+# Functions with different matrix types: unsigned long long
 def function_type_uint64(np.ndarray[np.uint64_t, ndim=2] array):
     return ndarray(_function_type_uint64(FlattenedMap[Array, uint64_t, Dynamic, Dynamic](array)))
 
