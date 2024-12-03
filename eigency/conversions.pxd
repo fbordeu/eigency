@@ -1,7 +1,9 @@
 cimport numpy as np
 
+### Warning ###
 # If this is changed, array_type_t in core.pxd needs to be changed too
 # Also, the handling of the types needs to be changed in eigency_cpp.h for NDAC and NDAV
+# Otherwise this will break!
 ctypedef fused array_type_t:
     signed char
     unsigned char
@@ -19,6 +21,7 @@ ctypedef fused array_type_t:
     float complex
     double complex
     long double complex
+##############
 
 
 # Array with limit 2D

@@ -6,7 +6,9 @@ ctypedef unsigned long long u_long_long;
 ctypedef long double long_double;
 ctypedef long double complex c_long_double;
 
+### Warning ###
 # If this is changed, array_type_t in conversions.pxd needs to be changed too
+# Otherwise this will break!
 ctypedef fused dtype:
     signed char
     unsigned char
@@ -24,6 +26,7 @@ ctypedef fused dtype:
     float complex
     double complex
     c_long_double
+##############
 
 ctypedef fused DenseType:
     Matrix
