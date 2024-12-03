@@ -16,7 +16,7 @@ description = "Cython interface between the numpy arrays and the Matrix/Array cl
 readme  = "README.md"
 
 requires-python = ">=3.9"
-license = {file = "MIT License"}
+license = {file = "LICENSE"}
 
 dependencies = [
     "numpy>=1.23.5",
