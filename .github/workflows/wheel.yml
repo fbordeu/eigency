@@ -27,13 +27,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+          fetch-depth: 0
       - name: Setup Python ${{ matrix.python }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
       - name: Install build dependencies
         run: |
-          python -m pip install wheel
+          python -m pip install wheel twine
       - name: Build eigency
         run: |
           python -m pip wheel .
+          twine check dist/*
