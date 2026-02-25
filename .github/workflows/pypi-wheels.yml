@@ -1,0 +1,130 @@
+name: pypi wheel and upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      PyPiDeployTarget:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        options:
+          - 'No'
+          - 'test.pypi.org'
+          - 'pypi'
+  pull_request:
+  push:
+    tags:
+      # Matches tags like 1.0.0.1 or 12.34.56.78
+      - '[0-9]+.[0-9]+.[0-9]+.[0-9]+'
+
+
+permissions:
+  contents: read
+
+
+jobs:
+  build_wheels:
+    if: github.ref_name != ''
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os : ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.3.1 # Note: Ensure you use a valid version
+        with:
+          output-dir: wheelhouse
+        env:
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheelhouse-${{ matrix.os }}
+          path: ./wheelhouse/*.whl
+
+  build_sdist:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+      - name: Install build dependencies
+        run: |
+          python -m pip install build
+      - name: Build eigency
+        run: |
+          python -m build --sdist .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheelhouse-sdist
+          path: ./dist/*.tar.gz
+
+  publish:
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/'))  ||  (github.event_name == 'workflow_dispatch'  && github.event.inputs.PyPiDeployTarget != 'No')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Linux wheels
+        uses: actions/download-artifact@v4
+        with:
+          name: wheelhouse-ubuntu-latest
+          path: artifacts
+
+      - name: Download macOS wheels
+        uses: actions/download-artifact@v4
+        with:
+          name: wheelhouse-macos-latest
+          path: artifacts
+
+      - name: Download Windows wheels
+        uses: actions/download-artifact@v4
+        with:
+          name: wheelhouse-windows-latest
+          path: artifacts
+
+      - name: Download SDist
+        uses: actions/download-artifact@v4
+        with:
+          name: wheelhouse-sdist
+          path: artifacts
+
+      - name: Install twine
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade twine
+
+      - name: Upload to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TEST_PYPI_TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          PYPI_TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          ls -la artifacts || true
+
+          if [ "${{ github.event.inputs.PyPiDeployTarget }}" == "pypi.org" ]; then
+            echo "Deploy to testpypi "
+            python -m twine upload  artifacts/* -u "$TWINE_USERNAME" -p "$TEST_PYPI_TWINE_PASSWORD" --non-interactive --verbose
+          else
+            python -m twine upload --repository testpypi artifacts/* -u "$TWINE_USERNAME" -p "$PYPI_TWINE_PASSWORD" --non-interactive --verbose
+          fi
+        shell: bash
