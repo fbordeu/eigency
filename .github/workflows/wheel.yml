@@ -37,5 +37,5 @@ jobs:
           python -m pip install wheel twine
       - name: Build eigency
         run: |
-          python -m pip wheel .
+          python -m pip wheel . --wheel-dir dist
           twine check dist/*
