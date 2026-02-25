@@ -34,7 +34,6 @@ maintainers = [
 
 classifiers = [
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: C++",
         "Programming Language :: Cython",
         "Programming Language :: Python :: 3.9",
