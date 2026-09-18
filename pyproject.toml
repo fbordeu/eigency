@@ -4,7 +4,9 @@ requires = [
     "setuptools_scm>=6.4.0",
     "oldest-supported-numpy; python_version<='3.8'",
     "numpy>=2.0.0; python_version>'3.8'",
-    "Cython>=3.0.0"
+    # Cython 3.3.0 emits invalid C/C++ identifiers for fused `cdef api`
+    # functions; revisit after https://github.com/cython/cython/pull/7972 is released.
+    "Cython>=3.0.0,<3.3"
 ]
 build-backend = "setuptools.build_meta"
 
